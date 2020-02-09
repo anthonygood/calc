@@ -13,9 +13,8 @@ const totals = repayment => Object.values(
   getTotals(repayment)
 ).map(moneyFmt)
 
-const RepaymentTable = ({ name = '', repayments }) =>
+const RepaymentTable = ({ repayments }) =>
   <div className="RepaymentTable">
-    <h2>{name}</h2>
     <table>
       <thead>
         <tr>

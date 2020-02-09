@@ -8,12 +8,6 @@ describe('RepaymentTable', () => {
     { date: '2020-04-09', principal: 10, interest: 1.123, total: 11.123 }
   ]
 
-  it('renders name', () => {
-    const { getByText } = render(<RepaymentTable name="Foo" repayments={repayments} />)
-
-    expect(getByText('Foo')).toBeInTheDocument()
-  })
-
   it('renders table headings', () => {
     const { getByText, getAllByText } = render(<RepaymentTable repayments={repayments} />)
 
