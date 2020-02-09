@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import RCF from './models/RCF'
+import RepaymentTable from './components/RepaymentTable'
 import './App.scss'
 
 const Header = () =>
@@ -26,30 +27,9 @@ const Inputs = ({ amount, duration, onChange }) =>
     />
   </form>
 
-const RepaymentItem = ({ interest, principal, total }) =>
-  <tr>
-    <td>{principal}</td>
-    <td>{interest}</td>
-    <td>{total}</td>
-  </tr>
-
-const RepaymentTable = ({ repayments = [] }) =>
-  <table>
-    <thead>
-      <tr>
-        <th>Principal</th>
-        <th>Interest</th>
-        <th>Total</th>
-      </tr>
-    </thead>
-    <tbody>
-      {repayments.map(repayment => <RepaymentItem key={JSON.stringify(repayment)} {...repayment} />)}
-    </tbody>
-  </table>
-
 const DEFAULT_AMOUNT = 10000
-const DEFAULT_DURATION = 4
-const DEFAULT_INTEREST = 3
+const DEFAULT_DURATION = 6
+const DEFAULT_INTEREST = 3.33
 
 class RepaymentCalculator extends Component {
   state = {
