@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import RepaymentTable from './RepaymentTable'
+import './ProductCalculator.scss'
 
 const Unavailable = ({ reason }) => (
   <div>Unfortunately this product requires {reason}.</div>

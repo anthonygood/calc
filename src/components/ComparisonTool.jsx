@@ -6,6 +6,8 @@ import ProductApi from '../apis/ProductsApi'
 import Inputs from './Inputs'
 import ProductCalculator from './ProductCalculator'
 
+import './ComparisonTool.scss'
+
 const DEFAULT_AMOUNT = 10000
 const DEFAULT_DURATION = 6
 const DEFAULT_INTEREST = 3.33
@@ -48,21 +50,23 @@ class ComparisonTool extends Component {
         <h1>Your loan</h1>
         <Inputs amount={amount} duration={duration} onChange={this.onInputChange} />
 
-        <ProductCalculator
-          name="Revolving Credit Facility"
-          amount={amount}
-          duration={duration}
-          config={products.RCF}
-          calculateRepayments={RCF}
-        />
+        <div class="SideBySide">
+          <ProductCalculator
+            name="Revolving Credit Facility"
+            amount={amount}
+            duration={duration}
+            config={products.RCF}
+            calculateRepayments={RCF}
+          />
 
-        <ProductCalculator
-          name="Business Loan"
-          amount={amount}
-          duration={duration}
-          config={products.BL}
-          calculateRepayments={BL}
-        />
+          <ProductCalculator
+            name="Business Loan"
+            amount={amount}
+            duration={duration}
+            config={products.BL}
+            calculateRepayments={BL}
+          />
+        </div>
       </div>
     )
   }
