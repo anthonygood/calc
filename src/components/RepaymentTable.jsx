@@ -1,38 +1,40 @@
 import React from 'react'
+import { formatRepayment, moneyFmt } from '../view-helpers/formatRepayment'
+import getTotals from '../view-helpers/getTotals'
 
-const commaSeparate = num =>
-  num.toString()
-    .split('')
-    .reverse()
-    .map((digit, i, arr) => i < arr.length - 1 && (i + 1) % 3 === 0 ? `,${digit}` : digit)
-    .reverse()
-    .join('')
-
-const format = num =>
- commaSeparate(
-   Math.round(num)
- )
-
-const RepaymentItem = ({ interest, principal, total }) =>
+const Row = ({ values }) =>
   <tr>
-    <td>{format(principal)}</td>
-    <td>{format(interest)}</td>
-    <td>{format(total)}</td>
+    {values.map(value => <td key={value}>{value}</td>)}
   </tr>
 
+const toKey = (repayment, i) => `${i}:${Object.values(repayment)}`
 
-const RepaymentTable = ({ repayments = [] }) =>
-  <table>
-    <thead>
-      <tr>
-        <th>Principal</th>
-        <th>Interest</th>
-        <th>Total</th>
-      </tr>
-    </thead>
-    <tbody>
-      {repayments.map((repayment, i) => <RepaymentItem key={Object.values(repayment)} {...repayment} />)}
-    </tbody>
-  </table>
+const totals = repayment => Object.values(
+  getTotals(repayment)
+).map(moneyFmt)
+
+const RepaymentTable = ({ name = '', repayments }) =>
+  <div className="RepaymentTable">
+    <h2>{name}</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Repayment Date</th>
+          <th>Principal</th>
+          <th>Interest</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        {repayments
+          .map(formatRepayment)
+          .map((repayment, i) => <Row key={toKey(repayment, i)} values={Object.values(repayment)} />)
+        }
+      </tbody>
+      <tfoot>
+        <Row values={['Total', ...totals(repayments)]} />
+      </tfoot>
+    </table>
+  </div>
 
 export default RepaymentTable

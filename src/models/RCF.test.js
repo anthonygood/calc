@@ -1,12 +1,25 @@
+import moment from 'moment'
 import RCF from './RCF'
+
+const now = moment('2020-09-02')
 
 describe('RCF loan', () => {
   describe('10,000 over 4 months at 3%', () => {
-    const repayments = RCF(10000, 4, 3)
+    const repayments = RCF(10000, 4, 3, now)
     const [one, two, three, four] = repayments
 
     it('returns array of 4 payments', () => {
       expect(repayments).toHaveLength(4)
+    })
+
+    it('each repayment has correct date', () => {
+      repayments.forEach((repayment, i) =>
+        expect(
+          repayment.date.toString()
+        ).toBe(
+          now.clone().add(i + 1, 'month').toString()
+        )
+      )
     })
 
     it('each repayment has correct principal amount', () => {

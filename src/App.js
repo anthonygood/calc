@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import RCF from './models/RCF'
+import BL from './models/BL'
 import RepaymentTable from './components/RepaymentTable'
 import './App.scss'
 
@@ -36,15 +37,18 @@ class RepaymentCalculator extends Component {
     amount: DEFAULT_AMOUNT,
     duration: DEFAULT_DURATION,
     interest: DEFAULT_INTEREST,
-    rcfRepayments: RCF(DEFAULT_AMOUNT, DEFAULT_DURATION, DEFAULT_INTEREST)
+    rcfRepayments: RCF(DEFAULT_AMOUNT, DEFAULT_DURATION, DEFAULT_INTEREST),
+    blRepayments: BL(DEFAULT_AMOUNT, DEFAULT_DURATION, DEFAULT_INTEREST),
   }
 
   onInputChange = (amount, duration) => {
     const rcfRepayments = RCF(amount, duration, this.state.interest)
+    const blRepayments = BL(amount, duration, this.state.interest)
     this.setState({
       amount,
       duration,
-      rcfRepayments
+      rcfRepayments,
+      blRepayments,
     })
   }
 
@@ -53,7 +57,8 @@ class RepaymentCalculator extends Component {
       <div className="App">
         <Header />
         <Inputs amount={this.state.amount} duration={this.state.duration} onChange={this.onInputChange} />
-        <RepaymentTable repayments={this.state.rcfRepayments} />
+        <RepaymentTable name="Revolving Credit Facility" repayments={this.state.rcfRepayments} />
+        <RepaymentTable name="Business Loan" repayments={this.state.blRepayments} />
       </div>
     )
   }
