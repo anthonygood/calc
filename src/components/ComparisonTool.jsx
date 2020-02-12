@@ -50,7 +50,7 @@ class ComparisonTool extends Component {
         <h1>Your loan</h1>
         <Inputs amount={amount} duration={duration} onChange={this.onInputChange} />
 
-        <div class="SideBySide">
+        <div className="SideBySide">
           <ProductCalculator
             name="Revolving Credit Facility"
             amount={amount}
@@ -74,6 +74,7 @@ class ComparisonTool extends Component {
   onInputChange = (amount, duration) => {
     const rcfRepayments = RCF(amount, duration, this.state.interest)
     const blRepayments = BL(amount, duration, this.state.interest)
+
     this.setState({
       amount,
       duration,

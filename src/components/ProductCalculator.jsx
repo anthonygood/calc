@@ -1,9 +1,12 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import RepaymentTable from './RepaymentTable'
+import LabelledElement from './LabelledElement'
+import { moneyFmt } from '../view-helpers/formatRepayment'
 import './ProductCalculator.scss'
 
 const Unavailable = ({ reason }) => (
-  <div>Unfortunately this product requires {reason}.</div>
+  <div className="Unavailable">Unfortunately this product has {reason}.</div>
 )
 
 const Body = ({
@@ -12,8 +15,8 @@ const Body = ({
   repayments,
   config
 }) => {
-  if (amount < config.amount.min) return <Unavailable reason={`a minimum amount of £${config.amount.min}`} />
-  if (amount > config.amount.max) return <Unavailable reason={`a maximum amount of £${config.amount.max}`} />
+  if (amount < config.amount.min) return <Unavailable reason={`a minimum amount of ${moneyFmt(config.amount.min)}`} />
+  if (amount > config.amount.max) return <Unavailable reason={`a maximum amount of ${moneyFmt(config.amount.max)}`} />
   if (duration < config.duration.min) return <Unavailable reason={`a minimum duration of ${config.duration.min} month`} />
   if (duration > config.duration.max) return <Unavailable reason={`a maximum duration of ${config.duration.max} months`} />
 
@@ -21,8 +24,7 @@ const Body = ({
 }
 
 const InterestControl = ({ interest, onChange }) => (
-  <div>
-    <label html="amount">Interest (%)</label>
+  <LabelledElement labelText='Interest' output={`${interest}%`}>
     <input
       name="amount"
       value={interest}
@@ -30,7 +32,7 @@ const InterestControl = ({ interest, onChange }) => (
       min="1" max="5" step="0.01"
       onChange={({ target }) => onChange(target.value)}
     />
-  </div>
+  </LabelledElement>
 )
 
 class ProductCalculator extends Component {
@@ -50,13 +52,38 @@ class ProductCalculator extends Component {
     const repayments = calculateRepayments(amount, duration, this.state.interest)
 
     return (
-      <div class="ProductCalculator">
+      <div className="ProductCalculator">
         <h2>{name}</h2>
         <InterestControl interest={this.state.interest} onChange={interest => this.setState({ interest })} />
         <Body amount={amount} duration={duration} repayments={repayments} config={config} />
       </div>
     )
   }
+}
+
+const MinMaxType = PropTypes.shape({
+  min: PropTypes.number.isRequired,
+  max: PropTypes.number.isRequired
+})
+
+const ProductConfigType = PropTypes.shape({
+  amount: MinMaxType,
+  duration: MinMaxType,
+})
+
+Body.propTypes = {
+  amount: PropTypes.number.isRequired,
+  duration: PropTypes.number.isRequired,
+  repayments: PropTypes.array,
+  config: ProductConfigType,
+}
+
+ProductCalculator.propTypes = {
+  amount: PropTypes.number.isRequired,
+  calculateRepayments: PropTypes.func.isRequired,
+  config: ProductConfigType,
+  duration: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired,
 }
 
 export default ProductCalculator

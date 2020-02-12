@@ -1,0 +1,18 @@
+@import 'variables.scss';
+
+.RepaymentTable {
+  table {
+    width: 100%;
+    table-layout: fixed;
+  }
+
+  td:nth-child(1), th:nth-child(1) { display: none }
+}
+
+@media (min-width: $desktop) {
+  .RepaymentTable {
+    td:nth-child(1), th:nth-child(1) {
+      display: table-cell;
+    }
+  }
+}
