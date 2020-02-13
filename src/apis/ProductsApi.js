@@ -1,4 +1,4 @@
-const PRODUCTS_URL = 'http://www.mocky.io/v2/5d4aa9e93300006f000f5ea9'
+const PRODUCTS_URL = 'https://www.mocky.io/v2/5d4aa9e93300006f000f5ea9'
 
 class Product {
   constructor({
